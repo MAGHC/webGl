@@ -11,8 +11,6 @@ import * as dat from "dat.gui";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import universe from "./src/universe.jpg";
-import universe2 from "./src/universe2.jpg";
-import earthImg from "./src/earth.jpg";
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -21,7 +19,7 @@ document.body.appendChild(renderer.domElement);
 renderer.shadowMap.enabled = true;
 
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 500);
-camera.position.set(0, 1, 10);
+camera.position.set(10, 25, 70);
 
 const orbit = new OrbitControls(camera, renderer.domElement);
 orbit.update();
@@ -31,33 +29,27 @@ const scene = new THREE.Scene();
 const helper = new THREE.AxesHelper(40);
 scene.add(helper);
 
-const material = new THREE.LineBasicMaterial({ color: 0x0000ff });
-
-const points = [];
-points.push(new THREE.Vector3(-10, 0, 0));
-points.push(new THREE.Vector3(0, 10, 0));
-points.push(new THREE.Vector3(10, 0, 0));
-
-const geometry = new THREE.BufferGeometry().setFromPoints(points);
-
-const line = new THREE.Line(geometry, material);
-
-const Boxgeo = new THREE.BoxGeometry();
-const Boxmat = new THREE.MeshStandardMaterial({ color: 0xffff00 });
-const Box = new THREE.Mesh(Boxgeo, Boxmat);
-
-scene.add(Box);
-
-const planeGeo = new THREE.PlaneGeometry(30, 30, 10);
+const planeGeo = new THREE.PlaneGeometry(50, 50);
 const planeMa = new THREE.MeshStandardMaterial({
   color: 0xffffff,
   side: THREE.DoubleSide,
 });
-const plane = new THREE.Mesh(planeGeo, planeMa);
+const planex = new THREE.Mesh(planeGeo, planeMa);
 
-plane.rotation.x = -0.5 * Math.PI;
-plane.receiveShadow = true;
-const gridHelper = new THREE.GridHelper(30);
+// const planeGeoY = new THREE.PlaneGeometry(50, 50);
+// const planeMaY = new THREE.MeshStandardMaterial({
+//   color: 0xffffff,
+//   side: THREE.DoubleSide,
+// });
+
+// const planey = new THREE.Mesh(planeGeoY, planeMaY);
+
+// scene.add(planey);
+// planey.rotation.y = -0.5 * Math.PI;
+// planey.position.y = 25;
+
+planex.rotation.x = -0.5 * Math.PI;
+planex.receiveShadow = true;
 
 const sphereGeo = new THREE.SphereGeometry(4, 50, 50);
 const sphereMat = new THREE.MeshStandardMaterial({
@@ -66,7 +58,18 @@ const sphereMat = new THREE.MeshStandardMaterial({
 });
 const sphere = new THREE.Mesh(sphereGeo, sphereMat);
 
-sphere.position.set(-10, 0, 0);
+const sphereMat2 = new THREE.MeshStandardMaterial({
+  color: 0x00fff,
+  wireframe: false,
+});
+
+const sphere2 = new THREE.Mesh(sphereGeo, sphereMat2);
+
+scene.add(sphere2);
+
+sphere2.position.set(-14, 4, 0);
+
+sphere.position.set(4, 4, 0);
 
 sphere.castShadow = true;
 
@@ -123,21 +126,12 @@ gui.add(option, "angle", 0, 1);
 gui.add(option, "panumbra", 0, 1);
 gui.add(option, "intensity", 0, 1);
 
-scene.add(gridHelper);
 scene.add(sphere);
-scene.add(plane);
+scene.add(planex);
 
-// scene.fog = new THREE.Fog(0xffffff, 0, 300);
-scene.fog = new THREE.FogExp2(0xffffff, 0.01);
+scene.fog = new THREE.Fog(0xffffff, 0, 300);
 
 renderer.setClearColor(0x5c7e96);
-
-const earthGeo = new THREE.SphereGeometry(4, 20, 20);
-const earthMa = new THREE.MeshStandardMaterial({ map: textLoader.load(earthImg) });
-
-const earth = new THREE.Mesh(earthGeo, earthMa);
-
-scene.add(earth);
 
 // const cubeTextLoader = new THREE.CubeTextureLoader();
 // scene.background = cubeTextLoader.load(["universe", universe2, universe, universe, universe2, universe]);
@@ -145,17 +139,21 @@ scene.add(earth);
 let step = 0;
 
 function animate() {
-  Box.rotation.x += 0.01;
-  Box.rotation.y += 0.01;
+  requestAnimationFrame(animate);
   step += option.speed;
   spotlight.angle = option.angle;
   spotlight.penumbra = option.panumbra;
   spotlight.intensity = option.intensity;
   slHelpoer.update();
-  sphere.position.y = 10 * Math.abs(Math.sin(step));
+
+  sphere.position.x = 4 + 10 * Math.cos(step);
+  sphere.position.y = 4 + 10 * Math.abs(Math.sin(step));
   renderer.render(scene, camera);
 }
-renderer.setAnimationLoop(animate);
+
+console.log(sphere.position.x);
+
+animate();
 
 // scene.add(line);
 

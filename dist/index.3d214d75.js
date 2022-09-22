@@ -545,52 +545,48 @@ var _three = require("three");
 var _orbitControls = require("three/examples/jsm/controls/OrbitControls");
 var _universeJpg = require("./src/universe.jpg");
 var _universeJpgDefault = parcelHelpers.interopDefault(_universeJpg);
-var _universe2Jpg = require("./src/universe2.jpg");
-var _universe2JpgDefault = parcelHelpers.interopDefault(_universe2Jpg);
-var _earthJpg = require("./src/earth.jpg");
-var _earthJpgDefault = parcelHelpers.interopDefault(_earthJpg);
 const renderer = new _three.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 renderer.shadowMap.enabled = true;
 const camera = new _three.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 500);
-camera.position.set(0, 1, 10);
+camera.position.set(10, 25, 70);
 const orbit = new (0, _orbitControls.OrbitControls)(camera, renderer.domElement);
 orbit.update();
 const scene = new _three.Scene();
 const helper = new _three.AxesHelper(40);
 scene.add(helper);
-const material = new _three.LineBasicMaterial({
-    color: 0x0000ff
-});
-const points = [];
-points.push(new _three.Vector3(-10, 0, 0));
-points.push(new _three.Vector3(0, 10, 0));
-points.push(new _three.Vector3(10, 0, 0));
-const geometry = new _three.BufferGeometry().setFromPoints(points);
-const line = new _three.Line(geometry, material);
-const Boxgeo = new _three.BoxGeometry();
-const Boxmat = new _three.MeshStandardMaterial({
-    color: 0xffff00
-});
-const Box = new _three.Mesh(Boxgeo, Boxmat);
-scene.add(Box);
-const planeGeo = new _three.PlaneGeometry(30, 30, 10);
+const planeGeo = new _three.PlaneGeometry(50, 50);
 const planeMa = new _three.MeshStandardMaterial({
     color: 0xffffff,
     side: _three.DoubleSide
 });
-const plane = new _three.Mesh(planeGeo, planeMa);
-plane.rotation.x = -0.5 * Math.PI;
-plane.receiveShadow = true;
-const gridHelper = new _three.GridHelper(30);
+const planex = new _three.Mesh(planeGeo, planeMa);
+// const planeGeoY = new THREE.PlaneGeometry(50, 50);
+// const planeMaY = new THREE.MeshStandardMaterial({
+//   color: 0xffffff,
+//   side: THREE.DoubleSide,
+// });
+// const planey = new THREE.Mesh(planeGeoY, planeMaY);
+// scene.add(planey);
+// planey.rotation.y = -0.5 * Math.PI;
+// planey.position.y = 25;
+planex.rotation.x = -0.5 * Math.PI;
+planex.receiveShadow = true;
 const sphereGeo = new _three.SphereGeometry(4, 50, 50);
 const sphereMat = new _three.MeshStandardMaterial({
     color: 0xfffff,
     wireframe: false
 });
 const sphere = new _three.Mesh(sphereGeo, sphereMat);
-sphere.position.set(-10, 0, 0);
+const sphereMat2 = new _three.MeshStandardMaterial({
+    color: 0x00fff,
+    wireframe: false
+});
+const sphere2 = new _three.Mesh(sphereGeo, sphereMat2);
+scene.add(sphere2);
+sphere2.position.set(-14, 4, 0);
+sphere.position.set(4, 4, 0);
 sphere.castShadow = true;
 const gui = new _datGui.GUI();
 const ambientLigth = new _three.AmbientLight(0x333333);
@@ -633,33 +629,26 @@ gui.add(option, "speed", 0, 0.1);
 gui.add(option, "angle", 0, 1);
 gui.add(option, "panumbra", 0, 1);
 gui.add(option, "intensity", 0, 1);
-scene.add(gridHelper);
 scene.add(sphere);
-scene.add(plane);
-// scene.fog = new THREE.Fog(0xffffff, 0, 300);
-scene.fog = new _three.FogExp2(0xffffff, 0.01);
+scene.add(planex);
+scene.fog = new _three.Fog(0xffffff, 0, 300);
 renderer.setClearColor(0x5c7e96);
-const earthGeo = new _three.SphereGeometry(4, 20, 20);
-const earthMa = new _three.MeshStandardMaterial({
-    map: textLoader.load((0, _earthJpgDefault.default))
-});
-const earth = new _three.Mesh(earthGeo, earthMa);
-scene.add(earth);
 // const cubeTextLoader = new THREE.CubeTextureLoader();
 // scene.background = cubeTextLoader.load(["universe", universe2, universe, universe, universe2, universe]);
 let step = 0;
 function animate() {
-    Box.rotation.x += 0.01;
-    Box.rotation.y += 0.01;
+    requestAnimationFrame(animate);
     step += option.speed;
     spotlight.angle = option.angle;
     spotlight.penumbra = option.panumbra;
     spotlight.intensity = option.intensity;
     slHelpoer.update();
-    sphere.position.y = 10 * Math.abs(Math.sin(step));
+    sphere.position.x = 4 + 10 * Math.cos(step);
+    sphere.position.y = 4 + 10 * Math.abs(Math.sin(step));
     renderer.render(scene, camera);
 }
-renderer.setAnimationLoop(animate);
+console.log(sphere.position.x);
+animate();
 // scene.add(line);
 window.addEventListener("resize", ()=>{
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -667,7 +656,7 @@ window.addEventListener("resize", ()=>{
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-},{"dat.gui":"k3xQk","three":"ktPTu","three/examples/jsm/controls/OrbitControls":"7mqRv","@parcel/transformer-js/src/esmodule-helpers.js":"egNBP","./src/universe.jpg":"js8wU","./src/universe2.jpg":"g2hX2","./src/earth.jpg":"UUxFw"}],"k3xQk":[function(require,module,exports) {
+},{"dat.gui":"k3xQk","three":"ktPTu","three/examples/jsm/controls/OrbitControls":"7mqRv","@parcel/transformer-js/src/esmodule-helpers.js":"egNBP","./src/universe.jpg":"js8wU"}],"k3xQk":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "color", ()=>color);
@@ -32703,12 +32692,6 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}],"g2hX2":[function(require,module,exports) {
-module.exports = require("./helpers/bundle-url").getBundleURL("UckoE") + "universe2.ed5ee4be.jpg" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"83suQ"}],"UUxFw":[function(require,module,exports) {
-module.exports = require("./helpers/bundle-url").getBundleURL("UckoE") + "earth.e0f99de1.jpg" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"83suQ"}]},["hfOgI","bB7Pu"], "bB7Pu", "parcelRequiref92d")
+},{}]},["hfOgI","bB7Pu"], "bB7Pu", "parcelRequiref92d")
 
 //# sourceMappingURL=index.3d214d75.js.map
