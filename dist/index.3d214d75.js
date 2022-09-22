@@ -532,6 +532,7 @@ function hmrAcceptRun(bundle, id) {
 }
 
 },{}],"bB7Pu":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 // const canvas = document.querySelector("canvas");
 // const html = document.queryCommandIndeterm("html");
 // window.addEventListener("resize", () => {
@@ -542,6 +543,10 @@ function hmrAcceptRun(bundle, id) {
 var _datGui = require("dat.gui");
 var _three = require("three");
 var _orbitControls = require("three/examples/jsm/controls/OrbitControls");
+var _universeJpg = require("./src/universe.jpg");
+var _universeJpgDefault = parcelHelpers.interopDefault(_universeJpg);
+var _universe2Jpg = require("./src/universe2.jpg");
+var _universe2JpgDefault = parcelHelpers.interopDefault(_universe2Jpg);
 const renderer = new _three.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -630,6 +635,10 @@ scene.add(plane);
 // scene.fog = new THREE.Fog(0xffffff, 0, 300);
 scene.fog = new _three.FogExp2(0xffffff, 0.01);
 renderer.setClearColor(0x5c7e96);
+const textLoader = new _three.TextureLoader();
+scene.background = textLoader.load((0, _universeJpgDefault.default));
+// const cubeTextLoader = new THREE.CubeTextureLoader();
+// scene.background = cubeTextLoader.load(["universe", universe2, universe, universe, universe2, universe]);
 let step = 0;
 function animate() {
     Box.rotation.x += 0.01;
@@ -644,7 +653,7 @@ function animate() {
 }
 renderer.setAnimationLoop(animate); // scene.add(line);
 
-},{"dat.gui":"k3xQk","three":"ktPTu","three/examples/jsm/controls/OrbitControls":"7mqRv"}],"k3xQk":[function(require,module,exports) {
+},{"dat.gui":"k3xQk","three":"ktPTu","three/examples/jsm/controls/OrbitControls":"7mqRv","@parcel/transformer-js/src/esmodule-helpers.js":"egNBP","./src/universe.jpg":"js8wU","./src/universe2.jpg":"g2hX2"}],"k3xQk":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "color", ()=>color);
@@ -32643,6 +32652,46 @@ class MapControls extends OrbitControls {
     }
 }
 
-},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"egNBP"}]},["hfOgI","bB7Pu"], "bB7Pu", "parcelRequiref92d")
+},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"egNBP"}],"js8wU":[function(require,module,exports) {
+module.exports = require("./helpers/bundle-url").getBundleURL("UckoE") + "universe.10ac9e12.jpg" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"83suQ"}],"83suQ":[function(require,module,exports) {
+"use strict";
+var bundleURL = {};
+function getBundleURLCached(id) {
+    var value = bundleURL[id];
+    if (!value) {
+        value = getBundleURL();
+        bundleURL[id] = value;
+    }
+    return value;
+}
+function getBundleURL() {
+    try {
+        throw new Error();
+    } catch (err) {
+        var matches = ("" + err.stack).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^)\n]+/g);
+        if (matches) // The first two stack frames will be this function and getBundleURLCached.
+        // Use the 3rd one, which will be a runtime in the original bundle.
+        return getBaseURL(matches[2]);
+    }
+    return "/";
+}
+function getBaseURL(url) {
+    return ("" + url).replace(/^((?:https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/.+)\/[^/]+$/, "$1") + "/";
+} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
+function getOrigin(url) {
+    var matches = ("" + url).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^/]+/);
+    if (!matches) throw new Error("Origin not found");
+    return matches[0];
+}
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+exports.getOrigin = getOrigin;
+
+},{}],"g2hX2":[function(require,module,exports) {
+module.exports = require("./helpers/bundle-url").getBundleURL("UckoE") + "universe2.ed5ee4be.jpg" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"83suQ"}]},["hfOgI","bB7Pu"], "bB7Pu", "parcelRequiref92d")
 
 //# sourceMappingURL=index.3d214d75.js.map

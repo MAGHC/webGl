@@ -10,6 +10,8 @@
 import * as dat from "dat.gui";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import universe from "./src/universe.jpg";
+import universe2 from "./src/universe2.jpg";
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -125,6 +127,12 @@ scene.add(plane);
 scene.fog = new THREE.FogExp2(0xffffff, 0.01);
 
 renderer.setClearColor(0x5c7e96);
+
+const textLoader = new THREE.TextureLoader();
+scene.background = textLoader.load(universe);
+
+// const cubeTextLoader = new THREE.CubeTextureLoader();
+// scene.background = cubeTextLoader.load(["universe", universe2, universe, universe, universe2, universe]);
 
 let step = 0;
 
