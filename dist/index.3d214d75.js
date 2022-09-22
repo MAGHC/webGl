@@ -547,6 +547,8 @@ var _universeJpg = require("./src/universe.jpg");
 var _universeJpgDefault = parcelHelpers.interopDefault(_universeJpg);
 var _universe2Jpg = require("./src/universe2.jpg");
 var _universe2JpgDefault = parcelHelpers.interopDefault(_universe2Jpg);
+var _earthJpg = require("./src/earth.jpg");
+var _earthJpgDefault = parcelHelpers.interopDefault(_earthJpg);
 const renderer = new _three.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -611,6 +613,8 @@ spotlight.castShadow = true;
 spotlight.angle = 0.2;
 const slHelpoer = new _three.SpotLightHelper(spotlight);
 scene.add(slHelpoer);
+const textLoader = new _three.TextureLoader();
+scene.background = textLoader.load((0, _universeJpgDefault.default));
 const option = {
     변경: "#ffea00",
     와이어프레임: false,
@@ -635,8 +639,12 @@ scene.add(plane);
 // scene.fog = new THREE.Fog(0xffffff, 0, 300);
 scene.fog = new _three.FogExp2(0xffffff, 0.01);
 renderer.setClearColor(0x5c7e96);
-const textLoader = new _three.TextureLoader();
-scene.background = textLoader.load((0, _universeJpgDefault.default));
+const earthGeo = new _three.SphereGeometry(4, 20, 20);
+const earthMa = new _three.MeshStandardMaterial({
+    map: textLoader.load((0, _earthJpgDefault.default))
+});
+const earth = new _three.Mesh(earthGeo, earthMa);
+scene.add(earth);
 // const cubeTextLoader = new THREE.CubeTextureLoader();
 // scene.background = cubeTextLoader.load(["universe", universe2, universe, universe, universe2, universe]);
 let step = 0;
@@ -651,9 +659,15 @@ function animate() {
     sphere.position.y = 10 * Math.abs(Math.sin(step));
     renderer.render(scene, camera);
 }
-renderer.setAnimationLoop(animate); // scene.add(line);
+renderer.setAnimationLoop(animate);
+// scene.add(line);
+window.addEventListener("resize", ()=>{
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
 
-},{"dat.gui":"k3xQk","three":"ktPTu","three/examples/jsm/controls/OrbitControls":"7mqRv","@parcel/transformer-js/src/esmodule-helpers.js":"egNBP","./src/universe.jpg":"js8wU","./src/universe2.jpg":"g2hX2"}],"k3xQk":[function(require,module,exports) {
+},{"dat.gui":"k3xQk","three":"ktPTu","three/examples/jsm/controls/OrbitControls":"7mqRv","@parcel/transformer-js/src/esmodule-helpers.js":"egNBP","./src/universe.jpg":"js8wU","./src/universe2.jpg":"g2hX2","./src/earth.jpg":"UUxFw"}],"k3xQk":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "color", ()=>color);
@@ -32691,6 +32705,9 @@ exports.getOrigin = getOrigin;
 
 },{}],"g2hX2":[function(require,module,exports) {
 module.exports = require("./helpers/bundle-url").getBundleURL("UckoE") + "universe2.ed5ee4be.jpg" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"83suQ"}],"UUxFw":[function(require,module,exports) {
+module.exports = require("./helpers/bundle-url").getBundleURL("UckoE") + "earth.e0f99de1.jpg" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"83suQ"}]},["hfOgI","bB7Pu"], "bB7Pu", "parcelRequiref92d")
 

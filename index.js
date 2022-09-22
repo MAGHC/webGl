@@ -12,6 +12,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import universe from "./src/universe.jpg";
 import universe2 from "./src/universe2.jpg";
+import earthImg from "./src/earth.jpg";
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -98,6 +99,9 @@ spotlight.angle = 0.2;
 const slHelpoer = new THREE.SpotLightHelper(spotlight);
 scene.add(slHelpoer);
 
+const textLoader = new THREE.TextureLoader();
+scene.background = textLoader.load(universe);
+
 const option = {
   변경: "#ffea00",
   와이어프레임: false,
@@ -128,8 +132,12 @@ scene.fog = new THREE.FogExp2(0xffffff, 0.01);
 
 renderer.setClearColor(0x5c7e96);
 
-const textLoader = new THREE.TextureLoader();
-scene.background = textLoader.load(universe);
+const earthGeo = new THREE.SphereGeometry(4, 20, 20);
+const earthMa = new THREE.MeshStandardMaterial({ map: textLoader.load(earthImg) });
+
+const earth = new THREE.Mesh(earthGeo, earthMa);
+
+scene.add(earth);
 
 // const cubeTextLoader = new THREE.CubeTextureLoader();
 // scene.background = cubeTextLoader.load(["universe", universe2, universe, universe, universe2, universe]);
@@ -150,3 +158,9 @@ function animate() {
 renderer.setAnimationLoop(animate);
 
 // scene.add(line);
+
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
